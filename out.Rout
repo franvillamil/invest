@@ -1,5 +1,5 @@
 running
-  '/Library/Frameworks/R.framework/Versions/4.2/Resources/bin/R --no-echo --no-restore --no-save --file=finect.R'
+  '/opt/R/4.4.2/lib/R/bin/R --no-echo --no-restore --no-save --file=finect.R'
 
 
 Attaching package: ‘dplyr’
@@ -12,4 +12,4 @@ The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
 
-[1] "Updating with data from today: 2024-11-14"
+[1] "Already have data from today, NOT updating: 2024-11-14"
