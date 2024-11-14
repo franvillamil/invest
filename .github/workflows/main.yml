@@ -2,11 +2,10 @@ on:
   schedule:
     - cron: "30 * * * *"
 
-permissions:
-  contents: write
-
 jobs:
   import-data:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Set up R
