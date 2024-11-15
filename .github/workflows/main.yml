@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 7 * * *"
 
 jobs:
   import-data:
@@ -17,14 +17,13 @@ jobs:
           packages: |
             any::rvest 
             any::stringr
-            any::ggplot2
             any::dplyr
 
       - name: Check out repository
         uses: actions/checkout@v3
 
       - name: Import data
-        run: Rscript --no-save --verbose finect.R 2>&1 | tee out.Rout
+        run: Rscript --no-save --verbose finect.R
 
       - name: Commit results
         run: |
