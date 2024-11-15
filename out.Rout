@@ -12,4 +12,4 @@ The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
 
-[1] "Already have data from today, NOT updating: 2024-11-14"
+[1] "Updating with data from today: 2024-11-15"
