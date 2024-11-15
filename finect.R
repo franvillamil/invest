@@ -1,8 +1,9 @@
+# setwd("~/Dropbox/Important/investing/scrap")
 library(rvest)
 library(stringr)
 library(dplyr)
 
-urls = c(
+urls_funds = c(
   "https://www.finect.com/fondos-inversion/IE00B42W4L06-Vanguard_glb_smallcp_idx__acc",
   "https://www.finect.com/fondos-inversion/IE0031786696-Vanguard_em_mkts_stk_idx__acc",
   "https://www.finect.com/fondos-inversion/IE0032126645-Vanguard_us_500_stk_idx__acc",
@@ -10,15 +11,27 @@ urls = c(
   "https://www.finect.com/fondos-inversion/IE0007472990-Vanguard__govt_bd_idx__acc",
   "https://www.finect.com/fondos-inversion/IE00B18GC888-Vanguard_global_bd_idx_eur_h_acc")
 
+urls_stocks = data.frame(
+  Stock = c("NOVA US", "IBE", "VOW GY"),
+  u = c(
+  "https://tools.morningstar.es/es/stockreport/default.aspx?SecurityToken=0P0001I1Y5]3]0]E0WWE$$ALL",
+  "https://tools.morningstar.es/es/stockreport/default.aspx?SecurityToken=0P0000A4Z3%5D3%5D0%5DE0WWE%24%24ALL",
+  "https://tools.morningstar.es/es/stockreport/default.aspx?SecurityToken=0P0000EP8W%5D3%5D0%5DE0WWE%24%24ALL"))
+
 today = as.character(format(Sys.time(), "%Y-%m-%d"))
-olddf = read.csv("price_funds.csv")
-if(!today %in% olddf$fecha){
 
-  print(paste("Updating with data from today:", today))
+olddf_funds = read.csv("price_funds.csv")
+olddf_stocks = read.csv("price_stocks.csv")
 
-  df = data.frame(id = NA, name = NA, fecha = NA, precio = NA)
+# Funds
 
-  for(u in urls){
+if(!today %in% olddf_funds$fecha){
+
+  print(paste("[FUNDS] Updating with data from today:", today))
+
+  df_funds = data.frame(id = NA, name = NA, fecha = NA, precio = NA)
+
+  for(u in urls_funds){
 
     textoraw = u %>%
       read_html() %>% 
@@ -34,12 +47,38 @@ if(!today %in% olddf$fecha){
     precio = as.numeric(gsub(",", ".", gsub(".*([a-z]|[A-Z])(\\d+,\\d+)€Fecha.*", "\\2", texto)))
 
     dfr = data.frame(id, name, fecha = today, precio)
-    df = rbind(df, dfr)
+    df_funds = rbind(df_funds, dfr)
 
   }
 
-  newdf = rbind(olddf, df)
-  newdf = unique(subset(newdf, !is.na(precio)))
-  write.csv(newdf, "price_funds.csv", row.names = FALSE)
+  newdf_funds = rbind(olddf_funds, df_funds)
+  newdf_funds = unique(subset(newdf_funds, !is.na(precio)))
+  write.csv(newdf_funds, "price_funds.csv", row.names = FALSE)
 
-} else { print(paste("Already have data from today, NOT updating:", today)) }
+} else { print(paste("[FUNDS] Already have data from today, NOT updating:", today)) }
+
+# Stocks
+
+if(!today %in% olddf_stocks$fecha){
+
+  print(paste("[STOCKS] Updating with data from today:", today))
+
+  df_stocks = data.frame(Stock = NA, precio = NA, fecha = NA)
+
+  for(i in 1:nrow(urls_stocks)){
+
+    precio = urls_stocks$u[i] %>%
+      read_html() %>% 
+      html_nodes(xpath = '//*[@id="Col0Price"]') %>%
+      html_text()
+    precio = as.numeric(gsub(",", ".", precio))
+    dfr = data.frame(Stock = urls_stocks$Stock[i], precio = precio, fecha = today)
+    df_stocks = rbind(df_stocks, dfr)
+
+  }
+
+  newdf_stocks = rbind(olddf_stocks, df_stocks)
+  newdf_stocks = unique(subset(newdf_stocks, !is.na(precio)))
+  write.csv(newdf_stocks, "price_stocks.csv", row.names = FALSE)
+
+} else { print(paste("[STOCKS] Already have data from today, NOT updating:", today)) }
