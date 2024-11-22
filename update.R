@@ -28,7 +28,12 @@ urls_stocks = data.frame(
     "https://www.morningstar.com/stocks/xfra/vow/quote"))
 
 https://finance.yahoo.com/quote/NOVA/
-https://query1.finance.yahoo.com/v7/finance/quote?fields=longName%2CregularMarketPrice%2CregularMarketChange%2CregularMarketChangePercent%2CshortName%2CpriceHint&symbols=VWAGY%2CIBE.MC%2CNOVA&lang=en-US&region=US&crumb=huChO%2FYsVH9
+url = "https://query1.finance.yahoo.com/v7/finance/quote?fields=longName%2CregularMarketPrice%2CregularMarketChange%2CregularMarketChangePercent%2CshortName%2CpriceHint&symbols=VWAGY%2CIBE.MC%2CNOVA&lang=en-US&region=US&crumb=huChO%2FYsVH9"
+
+library(httr)
+GET(url)
+
+# https://medium.com/@franklin.schram/concealed-apis-scrap-fast-scrap-easy-scrap-well-morningstar-and-vanguard-examples-2542de69b661
 check this!!!
 
 
