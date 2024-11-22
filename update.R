@@ -27,6 +27,15 @@ urls_stocks = data.frame(
     "https://www.morningstar.com/stocks/xmad/ibe/quote",
     "https://www.morningstar.com/stocks/xfra/vow/quote"))
 
+https://finance.yahoo.com/quote/NOVA/
+https://query1.finance.yahoo.com/v7/finance/quote?fields=longName%2CregularMarketPrice%2CregularMarketChange%2CregularMarketChangePercent%2CshortName%2CpriceHint&symbols=VWAGY%2CIBE.MC%2CNOVA&lang=en-US&region=US&crumb=huChO%2FYsVH9
+check this!!!
+
+
+https://finance.yahoo.com/quote/IBE.MC/
+https://finance.yahoo.com/quote/VOW.DE/
+
+
 today = as.character(format(Sys.time(), "%Y-%m-%d"))
 
 olddf_funds = read.csv("price_funds.csv")
